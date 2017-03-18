@@ -1,9 +1,17 @@
 <?php
 
+require(APP_PATH . "models/Message.php");
+
 class DefaultController extends Controller
 {
 	public function actionIndex($page)
 	{
-		$this->render("default/index");
+		$model = new Message();
+
+		$messages = $model->findAll();
+
+		$this->render("default/index", [
+			'messages' => $messages
+		]);
 	}
 }

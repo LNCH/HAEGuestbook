@@ -1,7 +1,7 @@
 <?php 
 
-require(DB_PATH . "/Pagination.php");
-require(__DIR__ . "/ActiveRecordInterface.php");
+include(DB_PATH . "/Pagination.php");
+include(__DIR__ . "/ActiveRecordInterface.php");
 
 class ActiveRecord implements ActiveRecordInterface
 {
