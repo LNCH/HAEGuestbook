@@ -9,7 +9,7 @@ class DefaultController extends Controller
 		$model = new Message();
 
 		$page = ($page) ? $page : 1;
-		$perPage = 4;
+		$perPage = 8;
 		$pagination = $model->paginate($page, $perPage);
 
 		$messages = $model->findAll();
