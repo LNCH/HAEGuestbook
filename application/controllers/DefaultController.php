@@ -8,6 +8,10 @@ class DefaultController extends Controller
 	{
 		$model = new Message();
 
+		$model->orderBy = [
+			'date_posted' => 'DESC'
+		];
+
 		$page = ($page) ? $page : 1;
 		$perPage = 8;
 		$pagination = $model->paginate($page, $perPage);

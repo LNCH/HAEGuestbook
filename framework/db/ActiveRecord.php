@@ -8,6 +8,8 @@ class ActiveRecord implements ActiveRecordInterface
 	public $_db;
 	public $_primaryKey;
 
+	public $orderBy = [];
+
 	public $limit = NULL;
 	public $offset = NULL;
 
@@ -55,11 +57,20 @@ class ActiveRecord implements ActiveRecordInterface
 
 		// Build query
 		$select = "SELECT * ";
-		$from = "FROM `" . $this->tableName() . "`";
+		$from = "FROM `" . $this->tableName() . "` ";
+
+		$orderBy = (count($this->orderBy)) ? "ORDER BY " : "";
+		$orders = [];
+		foreach($this->orderBy as $property => $order)
+		{
+			$orders[] = "`".$property."` " . $order;
+		}
+		$orderBy .= implode(", ", $orders) . " ";
+
 		$limit = ($this->limit !== NULL) ? "LIMIT " . $this->limit . " " : '';
 		$offset = ($this->offset !== NULL) ? "OFFSET " . $this->offset . " " : '';
 
-		$query = $this->_db->prepare($select.$from.$limit.$offset);
+		$query = $this->_db->prepare($select.$from.$orderBy.$limit.$offset);
 		$query->setFetchMode(PDO::FETCH_OBJ);
 		$query->execute();
 
