@@ -8,10 +8,15 @@ class DefaultController extends Controller
 	{
 		$model = new Message();
 
+		$page = ($page) ? $page : 1;
+		$perPage = 4;
+		$pagination = $model->paginate($page, $perPage);
+
 		$messages = $model->findAll();
 
 		$this->render("default/index", [
-			'messages' => $messages
+			'messages' => $messages,
+			'pagination' => $pagination
 		]);
 	}
 }
