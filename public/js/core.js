@@ -7,6 +7,8 @@ $(function() {
 		});
 	}
 
+	// Back to top link =========================================
+
 	// Offest in pixels that is required before the "back to top" button is shown
 	var offset = 300,
 
@@ -42,14 +44,54 @@ $(function() {
 
 	});
 
+	// Handle form submission ===================================
+
+	var $postButton = $("#post-message:not(.posted-message)");
+
+	$(document).on("submit", "form.ajax", function(e) {
+		e.preventDefault();
+
+		var $form = $(this);
+
+		var url = $form.attr("action");
+		var data = $form.serialize();
+
+		// Make AJAX POST request
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: data,
+			success: function(data, textStatus, jqXHR) {
+				if(data.result == "success") {
+					alert("Thanks for your message!");
+
+					// Change the button text and class
+					$postButton.html("Thanks!");
+
+					clearModal();
+					hideModal();
+
+					messageSubmitted = true;
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				
+				console.log(jqXHR, textStatus, errorThrown);
+
+			},
+			dataType: "json"
+		});
+	});
 
 	// Modal functions ==========================================
 
 	var $siteWrapper = $(".page-wrap"); 
-	var $postButton = $("#post-message");
 	var $modalOverlay = $("#modal-overlay");
 	var $modal = $("#modal");
+	var $modalContent = $modal.find(".modal-content");
 	var $modalCloseButton = $("#modal .modal-close");
+
+	var messageSubmitted = false;
 
 	function hideModal() {
 		$modalOverlay.css("top", "-100%");
@@ -57,20 +99,39 @@ $(function() {
 		$('body').removeClass("modal-open");
 		$siteWrapper.removeClass("modal-open");
 		$modalOverlay.removeClass("open");
+
+		$modalContent.html("");
 	}		
+
+	function showModal(url) {
+		// Show the modal if the form hasn't been submitted yet
+		if(!messageSubmitted) {
+			// Load content into the modal 
+			$modalContent.load(url, function() {
+				$modalOverlay.css("top", $(window).scrollTop());
+
+
+				$('body').addClass("modal-open");
+				$siteWrapper.addClass("modal-open");
+				$modalOverlay.addClass("open");
+			});
+		}
+	}
+
+	function clearModal() {
+		$modalContent.find("form").get(0).reset();
+	}
 
 	$postButton.on("click", function(e) {
 		e.preventDefault();
+
+		var url = $(this).attr("href");
 
 		// Check if modal is open
 		if($modalOverlay.hasClass("open")) {
 			hideModal();
 		} else {
-			$modalOverlay.css("top", $(window).scrollTop());
-
-			$('body').addClass("modal-open");
-			$siteWrapper.addClass("modal-open");
-			$modalOverlay.addClass("open");
+			showModal(url);
 		}
 	});
 

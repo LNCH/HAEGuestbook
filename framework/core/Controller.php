@@ -35,6 +35,18 @@ class Controller
 		require(PUBLIC_PATH . "layouts/main.php");
 	}
 
+	public function renderAjax($view = NULL, $data = [])
+	{
+		if($view)
+		{
+			ob_start();
+			include(VIEW_PATH . $view . ".php");
+			$content = ob_get_clean();
+		}
+
+		return $content;
+	}
+
 	public function isAjaxRequest()
 	{
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) 

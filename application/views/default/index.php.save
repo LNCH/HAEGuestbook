@@ -6,7 +6,7 @@
 
 			<div class="sidebar-widget post-message">
 
-				<a href="/messages/new" id="post-message" class="button full-width">Post a Message</a>
+				<a href="#0" id="post-message" class="button full-width">Post a Message</a>
 
 				<p>
 					Feel free to leave us a short message to tell us what you think to
@@ -21,17 +21,11 @@
 
 			<main id="main-content">
 
-			<?php 
-				$messages = $data['messages'];
-
-				foreach($messages as $message):
-			?>
-
 				<article class="message">
 
-					<h3 class="message-author">
+					<span class="message-author">
 						Written by: <span class="author-name"><?php echo $message->author_name; ?></span> 
-					</h3>
+					</span>
 
 					<?php $datetime = strtotime($message->date_posted); ?>
 					<span class="message-time">
@@ -39,9 +33,9 @@
 						<span class="date"><?php echo gmdate("h:ia", $datetime); ?></span>
 					</span>
 
-					<div class="message-content">
+					<span class="message-content">
 						<p><?php echo nl2br($message->message); ?></p>
-					</div>
+					</span>
 
 					<div class="admin-controls">
 

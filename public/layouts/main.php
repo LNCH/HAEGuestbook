@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 	<head>
 	
@@ -28,8 +28,8 @@
 
 						<div class="col-md-12">
 
-							<a href="#0" class="header-logo">
-								<img src="/public/images/header-logo.png" data-enhanced="/public/images/header-logo.svg" class="svg-enhancement" />
+							<a href="/" class="header-logo">
+								<img src="/public/images/header-logo.png" alt="HAE Group Guestbook" data-enhanced="/public/images/header-logo.svg" class="svg-enhancement" />
 							</a>
 
 						</div>

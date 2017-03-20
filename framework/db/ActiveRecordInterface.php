@@ -8,4 +8,6 @@ interface ActiveRecordInterface
 	public function findAll();
 
 	public function deleteOne($pk);
+
+	public function save($data);
 }

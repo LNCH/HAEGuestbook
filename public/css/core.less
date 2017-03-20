@@ -1,4 +1,14 @@
 /* ====================================
+	Mixins
+==================================== */
+
+.clearAppearance {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+/* ====================================
 	Core Styles
 ==================================== */
 
@@ -241,20 +251,66 @@ html, body {
 }
 
 /* ====================================
+	Form Group
+==================================== */
+
+.form-group {
+	margin: 1rem 0;
+
+	label {
+		display: block;
+	    margin-bottom: 0.5rem;
+	    font-size: 1rem;
+	    font-weight: 500;
+	}
+}
+
+/* ====================================
+	Input Elements
+==================================== */
+
+input[type="text"],
+input[type="password"] {
+    .clearAppearance;
+    border: 1px solid #8e8e8e;
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+@media (min-width: 1200px) {
+  	input[type="text"],
+	input[type="password"] {
+		width: 60%;
+	}
+}
+
+textarea {
+	.clearAppearance;
+	width: 100%;
+    border: 1px solid #8e8e8e;
+    display: block;
+    padding: 0.5rem;
+    resize: none;
+    min-height: 200px;
+    font-size: 1.1rem;
+}
+
+/* ====================================
 	Buttons
 ==================================== */
 
 .button {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
+	.clearAppearance;
 	margin: 0;
 	padding: 0;
 	text-decoration: none;
 	margin-bottom: 1rem;
+	border: none;
 
 	display: inline-block;
 	font-size: 0.9rem;
+	font-family: 'Open Sans';
 	background: hsl(348, 78%, 44%);
 	padding: 0.75rem 1rem;
 	color: white;
@@ -393,7 +449,7 @@ body.modal-open {
 
 #modal-overlay {
 	display: inline-block;
-	position: absolute;
+	position: fixed;
     background: rgba(0, 0, 0, 0.6);
     top: -150%;
     bottom: 100%;
@@ -427,7 +483,7 @@ body.modal-open {
 	#modal {
 		display: block;
 	    width: 90%;
-		height: 90%;
+		max-height: 90%;
 		position: absolute;
 		background: white;
 		z-index: 100;
@@ -435,6 +491,11 @@ body.modal-open {
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
 		box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+
+		.modal-content {
+			overflow: auto;
+			padding: 1.5rem 1rem;
+		}
 	}
 }
 
@@ -442,7 +503,11 @@ body.modal-open {
   	#modal-overlay {
 		#modal {
 			width: 70%;
-			height: 85%;
+			max-height: 85%;
+
+			.modal-content {
+				padding: 4rem 2rem;
+			}
 		}
 	}
 }

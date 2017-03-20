@@ -96,6 +96,33 @@ class ActiveRecord implements ActiveRecordInterface
 		$query->execute();
 	}
 
+	public function save($data)
+	{
+		$query = $this->_db->prepare("DESCRIBE " . $this->tableName());
+		$query->execute();
+		$table_fields = $query->fetchAll(PDO::FETCH_COLUMN);
+
+		// Check fields are valid
+		$params = [];
+		foreach($data as $field => $value)
+		{
+			if(!in_array($field, $table_fields))
+			{
+				unset($data[$field]);
+			}
+			else
+			{
+				$params[] = "?";
+			}
+		}
+
+		$sql = "INSERT INTO " . $this->tableName() . "(" . implode(", ", array_keys($data)) . ") ";
+		$sql .= "VALUES (" . implode(", ", $params) . ")";
+
+		$query = $this->_db->prepare($sql);
+		$query->execute(array_values($data));
+	}
+
 	public function paginate($page, $limit)
 	{
 		// Assemble data
