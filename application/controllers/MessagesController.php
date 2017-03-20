@@ -24,7 +24,12 @@ class MessagesController extends Controller
 
 			if($this->isAjaxRequest())
 			{
-				echo json_encode(['result' => 'success']);
+				$returnData = [
+					"author"	=> $author,
+					"message"	=> $content
+				];
+
+				echo json_encode(['result' => 'success', 'data' => $returnData]);
 				return true;
 			}	
 			else 
@@ -41,6 +46,28 @@ class MessagesController extends Controller
 		{
 			$this->render("messages/new");
 		}	
+	}
+
+	public function actionEdit($id)
+	{
+		if(isset($_POST['message-edit']))
+		{
+			$message = filter_var($_POST['message-edit'], FILTER_SANITIZE_STRING);
+
+			$model = new Message();
+			$model->findOne((int) $id);
+
+			$model->execute("UPDATE messages SET message = ? WHERE id = " . (int)$id, [$message]);
+
+			if($this->isAjaxRequest())
+			{
+				echo json_encode(['result' => 'success']);
+			}	
+			else 
+			{
+				$this->redirect("/");
+			}
+		}
 	}
 
 	public function actionDelete($id)

@@ -1,3 +1,5 @@
+<input type="hidden" id="current-page" value="<?php echo $data['page']; ?>" />
+
 <div class="container">
 
 	<div class="row">
@@ -21,43 +23,59 @@
 
 			<main id="main-content">
 
-			<?php 
-				$messages = $data['messages'];
+				<?php 
+					$messages = $data['messages'];
 
-				foreach($messages as $message):
-			?>
+					foreach($messages as $message):
+				?>
 
-				<article class="message">
+					<article class="message">
 
-					<h3 class="message-author">
-						Written by: <span class="author-name"><?php echo $message->author_name; ?></span> 
-					</h3>
+						<h3 class="message-author">
+							Written by: <span class="author-name"><?php echo $message->author_name; ?></span> 
+						</h3>
 
-					<?php $datetime = strtotime($message->date_posted); ?>
-					<span class="message-time">
-						Posted: <span class="date"><?php echo gmdate("jS M, Y", $datetime); ?></span> at 
-						<span class="date"><?php echo gmdate("h:ia", $datetime); ?></span>
-					</span>
+						<?php $datetime = strtotime($message->date_posted); ?>
+						<span class="message-time">
+							Posted: <span class="date"><?php echo gmdate("jS M, Y", $datetime); ?></span> at 
+							<span class="date"><?php echo gmdate("h:ia", $datetime); ?></span>
+						</span>
 
-					<div class="message-content">
-						<p><?php echo nl2br($message->message); ?></p>
-					</div>
+						<div class="message-content">
+							<p><?php echo nl2br($message->message); ?></p>
+						</div>
 
-					<div class="admin-controls">
+						<div class="admin-controls">
 
-						<a href="#0" class="edit-message" title="Edit Message">
-							<?php include(APP_PATH . 'includes/svg-pencil.php'); ?>
-						</a>
+							<a class="edit-message" title="Edit Message">
+								<?php include(APP_PATH . 'includes/svg-pencil.php'); ?>
+							</a>
 
-						<a href="/messages/delete/<?php echo $message->id; ?>" class="delete-message" title="Delete Message">
-							<?php include(APP_PATH . 'includes/svg-trash.php'); ?>
-						</a>
+							<a href="/messages/delete/<?php echo $message->id; ?>" class="delete-message" title="Delete Message">
+								<?php include(APP_PATH . 'includes/svg-trash.php'); ?>
+							</a>
 
-					</div> <!-- End .admin-controls -->
+						</div> <!-- End .admin-controls -->
 
-				</article> <!-- End .message -->
+						<form id="edit-message-<?php echo $message->id; ?>" action="/messages/edit/<?php echo $message->id; ?>" method="post">
 
-			<?php endforeach; ?>				
+							<div class="form-group">
+								<label for="message-edit-<?php echo $message->id; ?>"></label>
+								<div class="hint"></div>
+								<textarea id="message-edit-<?php echo $message->id; ?>" name="message-edit" class="small"><?php echo $message->message; ?></textarea>
+								<div class="error"></div>
+							</div> <!-- End .form-group -->
+
+							<div style="text-align: right;">
+								<button type="submit" class="button no-margin">Edit Message</button>
+								<input type="button" class="button no-margin cancel-edit grey" value="Cancel" />
+							</div>
+
+						</form>
+
+					</article> <!-- End .message -->
+
+				<?php endforeach; ?>
 
 				<div class="pagination">
 

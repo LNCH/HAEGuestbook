@@ -20,7 +20,8 @@ class DefaultController extends Controller
 
 		$this->render("default/index", [
 			'messages' => $messages,
-			'pagination' => $pagination
+			'pagination' => $pagination,
+			'page' => $page
 		]);
 	}
 }

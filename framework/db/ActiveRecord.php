@@ -39,6 +39,15 @@ class ActiveRecord implements ActiveRecordInterface
 		return '';
 	}
 
+	private function getTableFields()
+	{
+		$query = $this->_db->prepare("DESCRIBE " . $this->tableName());
+		$query->execute();
+		$table_fields = $query->fetchAll(PDO::FETCH_COLUMN);
+
+		return $table_fields;
+	}
+
 	public function findOne($pk)
 	{
 		$query = $this->_db->prepare("SELECT * FROM `" . $this->tableName() . "` WHERE id = ?");
@@ -96,11 +105,17 @@ class ActiveRecord implements ActiveRecordInterface
 		$query->execute();
 	}
 
+	public function execute($query, $params = [])
+	{
+		$query = $this->_db->prepare($query);
+		$query->execute($params);
+
+		return $query->fetchAll();
+	}
+
 	public function save($data)
 	{
-		$query = $this->_db->prepare("DESCRIBE " . $this->tableName());
-		$query->execute();
-		$table_fields = $query->fetchAll(PDO::FETCH_COLUMN);
+		$table_fields = $this->getTableFields();
 
 		// Check fields are valid
 		$params = [];

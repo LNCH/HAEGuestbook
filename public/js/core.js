@@ -44,9 +44,36 @@ $(function() {
 
 	});
 
+
+	// Edit Message Functionality ===============================
+
+	$editButton = $('.edit-message');
+	$cancelEditButton = $('.cancel-edit');
+
+	$editButton.on("click", function(e) {
+		e.preventDefault();
+		var $message = $(this).parents(".message");
+		$message.addClass("editing");
+	});
+
+	$cancelEditButton.on("click", function(e) {
+		e.preventDefault();
+		var $message = $(this).parents(".message");
+		$message.removeClass("editing");
+	});
+
 	// Handle form submission ===================================
 
 	var $postButton = $("#post-message:not(.posted-message)");
+
+	// Prepare the new message template
+	const Message = ({author, date, time, message}) => `
+	  	<article class="message new">
+			<h3 class="message-author">Written by: <span class="author-name">${author}</span></h3>
+			<span class="message-time">Posted: <span class="date">Just now</span></span>
+			<div class="message-content"><p>${message}</p></div>
+		</article> <!-- End .message -->
+	`;
 
 	$(document).on("submit", "form.ajax", function(e) {
 		e.preventDefault();
@@ -64,6 +91,9 @@ $(function() {
 			success: function(data, textStatus, jqXHR) {
 				if(data.result == "success") {
 					alert("Thanks for your message!");
+
+					var newMessage = [data.data].map(Message);
+					$("#main-content").prepend(newMessage);
 
 					// Change the button text and class
 					$postButton.html("Thanks!");
