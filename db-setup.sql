@@ -9,6 +9,16 @@ CREATE TABLE messages (
     PRIMARY KEY(`id`)
 );
 
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+	`id`			INT(11) AUTO_INCREMENT,
+	`username`		VARCHAR(64),
+	`password_hash`	VARCHAR(255),
+	`date_created`	DATETIME,
+	`last_login`	DATETIME,
+	PRIMARY KEY(`id`)
+);
+
 INSERT INTO messages (`author_name`, `date_posted`, `message`) VALUES
 ('Adam Savage', 				'2016-05-01 15:32:42',
 'While working on Mythbusters, we ended up with a lot of useless inventions and creations that had no home. 

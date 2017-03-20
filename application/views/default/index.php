@@ -45,33 +45,35 @@
 							<p><?php echo nl2br($message->message); ?></p>
 						</div>
 
-						<div class="admin-controls">
+						<?php if(isset($_SESSION['user_id'])): ?>
+							<div class="admin-controls">
 
-							<a class="edit-message" title="Edit Message">
-								<?php include(APP_PATH . 'includes/svg-pencil.php'); ?>
-							</a>
+								<a class="edit-message" title="Edit Message">
+									<?php include(APP_PATH . 'includes/svg-pencil.php'); ?>
+								</a>
 
-							<a href="/messages/delete/<?php echo $message->id; ?>" class="delete-message" title="Delete Message">
-								<?php include(APP_PATH . 'includes/svg-trash.php'); ?>
-							</a>
+								<a href="/messages/delete/<?php echo $message->id; ?>" class="delete-message" title="Delete Message">
+									<?php include(APP_PATH . 'includes/svg-trash.php'); ?>
+								</a>
 
-						</div> <!-- End .admin-controls -->
+							</div> <!-- End .admin-controls -->
 
-						<form id="edit-message-<?php echo $message->id; ?>" action="/messages/edit/<?php echo $message->id; ?>" method="post">
+							<form id="edit-message-<?php echo $message->id; ?>" action="/messages/edit/<?php echo $message->id; ?>" method="post">
 
-							<div class="form-group">
-								<label for="message-edit-<?php echo $message->id; ?>"></label>
-								<div class="hint"></div>
-								<textarea id="message-edit-<?php echo $message->id; ?>" name="message-edit" class="small"><?php echo $message->message; ?></textarea>
-								<div class="error"></div>
-							</div> <!-- End .form-group -->
+								<div class="form-group">
+									<label for="message-edit-<?php echo $message->id; ?>"></label>
+									<div class="hint"></div>
+									<textarea id="message-edit-<?php echo $message->id; ?>" name="message-edit" class="small"><?php echo $message->message; ?></textarea>
+									<div class="error"></div>
+								</div> <!-- End .form-group -->
 
-							<div style="text-align: right;">
-								<button type="submit" class="button no-margin">Edit Message</button>
-								<input type="button" class="button no-margin cancel-edit grey" value="Cancel" />
-							</div>
+								<div style="text-align: right;">
+									<button type="submit" class="button no-margin">Edit Message</button>
+									<input type="button" class="button no-margin cancel-edit grey" value="Cancel" />
+								</div>
 
-						</form>
+							</form>
+						<?php endif; ?>
 
 					</article> <!-- End .message -->
 

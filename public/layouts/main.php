@@ -55,7 +55,11 @@
 						<?php include(APP_PATH . 'includes/svg-logo.php'); ?>
 
 						<span class="admin-login">
-							<a href="#0">Admin Login</a>
+							<?php if(isset($_SESSION['user_id'])): ?>
+								<a href="/users/logout">Logout</a>
+							<?php else: ?>
+								<a href="/users/login">Admin Login</a>
+							<?php endif; ?>
 						</span>
 
 					</div> <!-- End .col-md-12 -->
